@@ -1,0 +1,17 @@
+FROM python:3.13-slim
+
+# create a workdir
+WORKDIR /code
+
+# copy the requirements to workdir and install deps
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# add a user other than admin, prevent from running as root
+RUN useradd -m sam
+USER sam
+
+# copy app code AFTER installing the deps
+COPY ./app /code/app
+
+CMD ["fastapi", "run", "app/main.py", "--port", "80"]

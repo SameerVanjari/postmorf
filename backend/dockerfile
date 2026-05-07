@@ -1,4 +1,9 @@
 FROM python:3.13-slim
+# If using debian-based (python:3.13-slim)
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# OR If using alpine-based (python:3.13-alpine)
+# RUN apk add --no-network curl
 
 # create a workdir
 WORKDIR /code
@@ -14,4 +19,4 @@ USER sam
 # copy app code AFTER installing the deps
 COPY ./app /code/app
 
-CMD ["fastapi", "run", "app/main.py", "--port", "80"]
+CMD ["fastapi", "run", "app/main.py", "--port", "8800"]

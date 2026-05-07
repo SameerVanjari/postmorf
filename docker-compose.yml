@@ -1,0 +1,28 @@
+services:
+  frontend: 
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: always
+    environment: 
+      - API_URL=http://backend:8800
+    depends_on:
+      backend: 
+        condition: service_healthy
+
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8800:8800"
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8800/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3 
+

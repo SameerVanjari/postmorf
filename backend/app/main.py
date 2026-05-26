@@ -1,16 +1,28 @@
 from fastapi import FastAPI
+from sqlmodel import SQLModel
+
+from app.api.main import api_router
+from app.core.db import engine
+from app.models import (
+    User,
+    SocialAccount,
+    SourcePost,
+    SourcePostChunk,
+    GeneratedPost,
+    PostArtifact,
+    ArtifactVersion,
+    GenerationFeedback,
+)
 
 app = FastAPI(title="Post morph API")
 
-@app.get("/")
-def read_root():
-	return {"Hello": "Man" }
+# Create database tables on startup
+try:
+    SQLModel.metadata.create_all(engine)
+except Exception:
+    pass
 
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str | None = None): 
-	return {"item_id": item_id, "q": q}
-
+app.include_router(api_router, prefix="/api/v1")
 
 @app.get("/health")
 def health_check():

@@ -9,7 +9,9 @@ import {
 	CardTitle,
 } from "../../../components/ui/card";
 import { Separator } from "../../../components/ui/separator";
-import { posts } from "../../../data/mockData";
+import { SidebarTrigger } from "../../../components/ui/sidebar";
+import { Skeleton } from "../../../components/ui/skeleton";
+import { usePost } from "../../../hooks/use-posts";
 
 export const Route = createFileRoute("/posts/$postId/generated")({
 	component: GeneratedPostPage,
@@ -17,11 +19,31 @@ export const Route = createFileRoute("/posts/$postId/generated")({
 
 function GeneratedPostPage() {
 	const { postId } = Route.useParams();
-	const post = posts.find((p) => p.id === postId);
+	const { data: post, isLoading, error } = usePost(postId);
 
-	if (!post) {
+	if (isLoading) {
 		return (
-			<main className="mx-auto max-w-[1200px] px-4 py-8">
+			<main className="mx-auto max-w-[1200px] px-6 py-8">
+				<div className="mb-8 flex items-center gap-4">
+					<SidebarTrigger className="h-8 w-8" />
+					<Skeleton className="h-8 w-64" />
+				</div>
+				<div className="grid grid-cols-[1fr_280px] gap-8">
+					<Card className="border-border">
+						<CardContent className="space-y-3 pt-6">
+							<Skeleton className="h-4 w-full" />
+							<Skeleton className="h-4 w-5/6" />
+							<Skeleton className="h-4 w-3/4" />
+						</CardContent>
+					</Card>
+				</div>
+			</main>
+		);
+	}
+
+	if (!post || error) {
+		return (
+			<main className="mx-auto max-w-[1200px] px-6 py-8">
 				<div className="flex flex-col items-center justify-center py-24">
 					<h2 className="text-lg font-semibold">Post not found</h2>
 					<Button asChild variant="outline" className="mt-4">
@@ -33,8 +55,9 @@ function GeneratedPostPage() {
 	}
 
 	return (
-		<main className="mx-auto max-w-[1200px] px-4 py-8">
+		<main className="mx-auto max-w-[1200px] px-6 py-8">
 			<div className="mb-8 flex items-center gap-4">
+				<SidebarTrigger className="h-8 w-8" />
 				<Button
 					variant="ghost"
 					size="icon"
@@ -92,7 +115,7 @@ function GeneratedPostPage() {
 								size="sm"
 								asChild
 							>
-								<Link to="/posts/$postId/edit" params={{ postId }}>
+								<Link to="/posts/$postId/edit" params={{ postId: post.id }}>
 									<Pencil className="h-3.5 w-3.5" />
 									Edit Before Publishing
 								</Link>

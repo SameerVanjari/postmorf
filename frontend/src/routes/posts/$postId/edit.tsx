@@ -6,8 +6,10 @@ import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { Separator } from "../../../components/ui/separator";
+import { SidebarTrigger } from "../../../components/ui/sidebar";
+import { Skeleton } from "../../../components/ui/skeleton";
 import { Textarea } from "../../../components/ui/textarea";
-import { posts } from "../../../data/mockData";
+import { usePost, useUpdatePost } from "../../../hooks/use-posts";
 
 export const Route = createFileRoute("/posts/$postId/edit")({
 	component: EditPostPage,
@@ -15,13 +17,29 @@ export const Route = createFileRoute("/posts/$postId/edit")({
 
 function EditPostPage() {
 	const { postId } = Route.useParams();
-	const post = posts.find((p) => p.id === postId);
+	const { data: post, isLoading, error } = usePost(postId);
+	const updatePost = useUpdatePost();
 	const [title, setTitle] = useState(post?.title ?? "");
 	const [content, setContent] = useState(post?.content ?? "");
 
-	if (!post) {
+	if (isLoading) {
 		return (
-			<main className="mx-auto max-w-[1200px] px-4 py-8">
+			<main className="mx-auto max-w-[1200px] px-6 py-8">
+				<div className="mb-8 flex items-center gap-4">
+					<SidebarTrigger className="h-8 w-8" />
+					<Skeleton className="h-8 w-64" />
+				</div>
+				<div className="max-w-2xl space-y-4">
+					<Skeleton className="h-10 w-full" />
+					<Skeleton className="h-[400px] w-full" />
+				</div>
+			</main>
+		);
+	}
+
+	if (!post || error) {
+		return (
+			<main className="mx-auto max-w-[1200px] px-6 py-8">
 				<div className="flex flex-col items-center justify-center py-24">
 					<h2 className="text-lg font-semibold">Post not found</h2>
 					<Button asChild variant="outline" className="mt-4">
@@ -32,9 +50,14 @@ function EditPostPage() {
 		);
 	}
 
+	const handleSave = () => {
+		updatePost.mutate({ id: post.id, title, content });
+	};
+
 	return (
-		<main className="mx-auto max-w-[1200px] px-4 py-8">
+		<main className="mx-auto max-w-[1200px] px-6 py-8">
 			<div className="mb-8 flex items-center gap-4">
+				<SidebarTrigger className="h-8 w-8" />
 				<Button
 					variant="ghost"
 					size="icon"
@@ -58,9 +81,13 @@ function EditPostPage() {
 						</span>
 					</div>
 				</div>
-				<Button className="gap-1.5">
+				<Button
+					className="gap-1.5"
+					onClick={handleSave}
+					disabled={updatePost.isPending}
+				>
 					<Save className="h-4 w-4" />
-					Save Changes
+					{updatePost.isPending ? "Saving..." : "Save Changes"}
 				</Button>
 			</div>
 

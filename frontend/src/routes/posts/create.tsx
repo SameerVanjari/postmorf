@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Save, Send } from "lucide-react";
 import { useState } from "react";
 import { PlatformAccountSelector } from "../../components/PlatformAccountSelector";
@@ -8,15 +8,60 @@ import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Separator } from "../../components/ui/separator";
 import { SidebarTrigger } from "../../components/ui/sidebar";
+import { useCreatePost } from "../../hooks/use-posts";
 
 export const Route = createFileRoute("/posts/create")({
 	component: CreatePostPage,
 });
 
 function CreatePostPage() {
+	const navigate = useNavigate();
+	const createPost = useCreatePost();
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+
+	const handleSaveDraft = () => {
+		createPost.mutate(
+			{
+				title: title || "Untitled Draft",
+				content,
+				excerpt: content.slice(0, 120),
+				status: "draft",
+				platforms:
+					selectedPlatforms.length > 0 ? selectedPlatforms : ["twitter"],
+				tags: [],
+				scheduledAt: null,
+				sourcePostId: null,
+			},
+			{
+				onSuccess: () => {
+					navigate({ to: "/posts" });
+				},
+			},
+		);
+	};
+
+	const handlePublish = () => {
+		createPost.mutate(
+			{
+				title: title || "Untitled Post",
+				content,
+				excerpt: content.slice(0, 120),
+				status: "published",
+				platforms:
+					selectedPlatforms.length > 0 ? selectedPlatforms : ["twitter"],
+				tags: [],
+				scheduledAt: null,
+				sourcePostId: null,
+			},
+			{
+				onSuccess: (post) => {
+					navigate({ to: "/posts/$postId", params: { postId: post.id } });
+				},
+			},
+		);
+	};
 
 	return (
 		<main className="mx-auto max-w-[1200px] px-6 py-8">
@@ -74,15 +119,22 @@ function CreatePostPage() {
 				<Separator />
 
 				<div className="flex items-center gap-3">
-					<Button variant="outline" className="gap-1.5" asChild>
-						<Link to="/posts">
-							<Save className="h-4 w-4" />
-							Save Draft
-						</Link>
+					<Button
+						variant="outline"
+						className="gap-1.5"
+						onClick={handleSaveDraft}
+						disabled={createPost.isPending}
+					>
+						<Save className="h-4 w-4" />
+						{createPost.isPending ? "Saving..." : "Save Draft"}
 					</Button>
-					<Button className="gap-1.5">
+					<Button
+						className="gap-1.5"
+						onClick={handlePublish}
+						disabled={createPost.isPending}
+					>
 						<Send className="h-4 w-4" />
-						Publish
+						{createPost.isPending ? "Publishing..." : "Publish"}
 					</Button>
 				</div>
 			</div>

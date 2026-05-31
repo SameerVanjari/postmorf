@@ -1,12 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { EmptyState } from "../../components/EmptyState";
 import { FilterBar } from "../../components/FilterBar";
 import { PostCard } from "../../components/PostCard";
 import { Button } from "../../components/ui/button";
+import { Card, CardContent, CardHeader } from "../../components/ui/card";
 import { SidebarTrigger } from "../../components/ui/sidebar";
-import { posts } from "../../data/mockData";
+import { Skeleton } from "../../components/ui/skeleton";
+import { usePosts } from "../../hooks/use-posts";
 
 export const Route = createFileRoute("/posts/")({
 	component: PostsPage,
@@ -14,28 +16,19 @@ export const Route = createFileRoute("/posts/")({
 
 function PostsPage() {
 	const [searchQuery, setSearchQuery] = useState("");
-
-	const filtered = useMemo(() => {
-		if (!searchQuery.trim()) return posts;
-		const q = searchQuery.toLowerCase();
-		return posts.filter(
-			(p) =>
-				p.title.toLowerCase().includes(q) ||
-				p.excerpt.toLowerCase().includes(q) ||
-				p.tags.some((t) => t.toLowerCase().includes(q)),
-		);
-	}, [searchQuery]);
+	const { data: filtered, isLoading } = usePosts(searchQuery);
+	const allPosts = filtered ?? [];
 
 	return (
 		<main className="mx-auto max-w-[1200px] px-6 py-8">
 			<div className="mb-8 flex items-center gap-4">
 				<SidebarTrigger className="h-8 w-8" />
-				<div>
+				<div className="flex-1">
 					<h1 className="text-[24px] font-semibold leading-tight tracking-tight">
 						All Posts
 					</h1>
 					<p className="mt-1 text-sm text-muted-foreground">
-						{posts.length} total posts · {filtered.length} shown
+						{isLoading ? "Loading..." : `${allPosts.length} posts shown`}
 					</p>
 				</div>
 				<Link
@@ -55,7 +48,23 @@ function PostsPage() {
 				/>
 			</div>
 
-			{filtered.length === 0 ? (
+			{isLoading ? (
+				<div className="grid grid-cols-2 gap-4">
+					{Array.from({ length: 4 }).map((_, i) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: static skeleton count
+						<Card key={`skel-${i}`} className="border-border">
+							<CardHeader className="pb-3">
+								<Skeleton className="h-5 w-3/4" />
+								<Skeleton className="mt-2 h-4 w-full" />
+								<Skeleton className="mt-1 h-4 w-2/3" />
+							</CardHeader>
+							<CardContent>
+								<Skeleton className="h-3 w-32" />
+							</CardContent>
+						</Card>
+					))}
+				</div>
+			) : allPosts.length === 0 ? (
 				<EmptyState
 					title={searchQuery ? "No matching posts" : "No posts yet"}
 					description={
@@ -73,7 +82,7 @@ function PostsPage() {
 				/>
 			) : (
 				<div className="grid grid-cols-2 gap-4">
-					{filtered.map((post) => (
+					{allPosts.map((post) => (
 						<PostCard key={post.id} post={post} />
 					))}
 				</div>

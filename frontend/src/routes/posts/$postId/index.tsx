@@ -10,7 +10,8 @@ import {
 } from "../../../components/ui/card";
 import { Separator } from "../../../components/ui/separator";
 import { SidebarTrigger } from "../../../components/ui/sidebar";
-import { posts } from "../../../data/mockData";
+import { Skeleton } from "../../../components/ui/skeleton";
+import { usePost } from "../../../hooks/use-posts";
 
 export const Route = createFileRoute("/posts/$postId/")({
 	component: PostDetailPage,
@@ -18,11 +19,38 @@ export const Route = createFileRoute("/posts/$postId/")({
 
 function PostDetailPage() {
 	const { postId } = Route.useParams();
-	const post = posts.find((p) => p.id === postId);
+	const { data: post, isLoading, error } = usePost(postId);
 
-	if (!post) {
+	if (isLoading) {
 		return (
-			<main className="mx-auto max-w-[1200px] px-4 py-8">
+			<main className="mx-auto max-w-[1200px] px-6 py-8">
+				<div className="mb-8 flex items-center gap-4">
+					<SidebarTrigger className="h-8 w-8" />
+					<Skeleton className="h-8 w-64" />
+				</div>
+				<div className="grid grid-cols-[1fr_280px] gap-8">
+					<Card className="border-border">
+						<CardContent className="space-y-3 pt-6">
+							<Skeleton className="h-4 w-full" />
+							<Skeleton className="h-4 w-5/6" />
+							<Skeleton className="h-4 w-3/4" />
+						</CardContent>
+					</Card>
+					<div className="space-y-4">
+						<Card className="border-border">
+							<CardContent className="pt-5">
+								<Skeleton className="h-16" />
+							</CardContent>
+						</Card>
+					</div>
+				</div>
+			</main>
+		);
+	}
+
+	if (!post || error) {
+		return (
+			<main className="mx-auto max-w-[1200px] px-6 py-8">
 				<div className="flex flex-col items-center justify-center py-24">
 					<h2 className="text-lg font-semibold">Post not found</h2>
 					<p className="mt-1 text-sm text-muted-foreground">
@@ -43,7 +71,7 @@ function PostDetailPage() {
 	});
 
 	return (
-		<main className="mx-auto max-w-[1200px] px-4 py-8">
+		<main className="mx-auto max-w-[1200px] px-6 py-8">
 			<div className="mb-8 flex items-center gap-4">
 				<SidebarTrigger className="h-8 w-8" />
 				<Button
@@ -67,7 +95,7 @@ function PostDetailPage() {
 				</div>
 				<div className="flex items-center gap-2">
 					<Button variant="outline" size="sm" className="gap-1.5" asChild>
-						<Link to="/posts/$postId/edit" params={{ postId }}>
+						<Link to="/posts/$postId/edit" params={{ postId: post.id }}>
 							<Edit className="h-3.5 w-3.5" />
 							Edit
 						</Link>

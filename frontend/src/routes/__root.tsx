@@ -7,7 +7,8 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
+import { PostMorphSidebar } from "../components/PostMorphSidebar";
+import { SidebarInset, SidebarProvider } from "../components/ui/sidebar";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 
@@ -50,9 +51,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="font-sans antialiased">
-				<Header />
-				{children}
-				<Footer />
+				<SidebarProvider defaultOpen>
+					<PostMorphSidebar />
+					<SidebarInset>
+						{children}
+						<Footer />
+					</SidebarInset>
+				</SidebarProvider>
 				{import.meta.env.DEV && (
 					<TanStackDevtools
 						config={{

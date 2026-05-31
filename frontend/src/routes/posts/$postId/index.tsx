@@ -9,6 +9,7 @@ import {
 	CardTitle,
 } from "../../../components/ui/card";
 import { Separator } from "../../../components/ui/separator";
+import { SidebarTrigger } from "../../../components/ui/sidebar";
 import { posts } from "../../../data/mockData";
 
 export const Route = createFileRoute("/posts/$postId/")({
@@ -44,6 +45,7 @@ function PostDetailPage() {
 	return (
 		<main className="mx-auto max-w-[1200px] px-4 py-8">
 			<div className="mb-8 flex items-center gap-4">
+				<SidebarTrigger className="h-8 w-8" />
 				<Button
 					variant="ghost"
 					size="icon"

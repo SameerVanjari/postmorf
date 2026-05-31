@@ -16,7 +16,7 @@ export const Route = createFileRoute("/sources")({
 
 function SourcesPage() {
 	return (
-		<main className="mx-auto max-w-[1200px] px-4 py-8">
+		<main className="mx-auto max-w-[1200px] px-6 py-8">
 			<div className="mb-8 flex items-center justify-between">
 				<div>
 					<h1 className="text-[24px] font-semibold leading-tight tracking-tight">

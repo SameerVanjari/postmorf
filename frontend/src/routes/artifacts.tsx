@@ -33,7 +33,7 @@ const artifacts = [
 
 function ArtifactsPage() {
 	return (
-		<main className="mx-auto max-w-[1200px] px-4 py-8">
+		<main className="mx-auto max-w-[1200px] px-6 py-8">
 			<div className="mb-8">
 				<h1 className="text-[24px] font-semibold leading-tight tracking-tight">
 					Artifacts

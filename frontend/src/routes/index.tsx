@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "../components/ui/card";
+import { SidebarTrigger } from "../components/ui/sidebar";
 import { posts } from "../data/mockData";
 import type { DashboardStats } from "../lib/types";
 
@@ -60,8 +61,9 @@ function DashboardPage() {
 	];
 
 	return (
-		<main className="mx-auto max-w-[1200px] px-4 py-8">
-			<div className="mb-8 flex items-center justify-between">
+		<main className="mx-auto max-w-[1200px] px-6 py-8">
+			<div className="mb-8 flex items-center gap-4">
+				<SidebarTrigger className="h-8 w-8" />
 				<div>
 					<h1 className="text-[24px] font-semibold leading-tight tracking-tight">
 						Dashboard

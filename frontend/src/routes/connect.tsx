@@ -16,7 +16,7 @@ export const Route = createFileRoute("/connect")({
 
 function ConnectPage() {
 	return (
-		<main className="mx-auto max-w-[1200px] px-4 py-8">
+		<main className="mx-auto max-w-[1200px] px-6 py-8">
 			<div className="mb-8 flex items-center gap-4">
 				<Button
 					variant="ghost"

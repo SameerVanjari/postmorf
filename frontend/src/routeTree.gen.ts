@@ -8,297 +8,296 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as ArtifactsRouteImport } from "./routes/artifacts";
-import { Route as ConnectRouteImport } from "./routes/connect";
-import { Route as CraftingRouteImport } from "./routes/crafting";
-import { Route as EditorRouteImport } from "./routes/editor";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as PostsPostIdEditRouteImport } from "./routes/posts/$postId/edit";
-import { Route as PostsPostIdGeneratedRouteImport } from "./routes/posts/$postId/generated";
-import { Route as PostsPostIdIndexRouteImport } from "./routes/posts/$postId/index";
-import { Route as PostsCreateRouteImport } from "./routes/posts/create";
-import { Route as PostsIndexRouteImport } from "./routes/posts/index";
-import { Route as SavedRouteImport } from "./routes/saved";
-import { Route as SourcesRouteImport } from "./routes/sources";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as SourcesRouteImport } from './routes/sources'
+import { Route as SavedRouteImport } from './routes/saved'
+import { Route as EditorRouteImport } from './routes/editor'
+import { Route as CraftingRouteImport } from './routes/crafting'
+import { Route as ConnectRouteImport } from './routes/connect'
+import { Route as ArtifactsRouteImport } from './routes/artifacts'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as PostsIndexRouteImport } from './routes/posts/index'
+import { Route as PostsCreateRouteImport } from './routes/posts/create'
+import { Route as PostsPostIdIndexRouteImport } from './routes/posts/$postId/index'
+import { Route as PostsPostIdGeneratedRouteImport } from './routes/posts/$postId/generated'
+import { Route as PostsPostIdEditRouteImport } from './routes/posts/$postId/edit'
 
 const SourcesRoute = SourcesRouteImport.update({
-	id: "/sources",
-	path: "/sources",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SavedRoute = SavedRouteImport.update({
-	id: "/saved",
-	path: "/saved",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EditorRoute = EditorRouteImport.update({
-	id: "/editor",
-	path: "/editor",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/editor',
+  path: '/editor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CraftingRoute = CraftingRouteImport.update({
-	id: "/crafting",
-	path: "/crafting",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/crafting',
+  path: '/crafting',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConnectRoute = ConnectRouteImport.update({
-	id: "/connect",
-	path: "/connect",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/connect',
+  path: '/connect',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArtifactsRoute = ArtifactsRouteImport.update({
-	id: "/artifacts",
-	path: "/artifacts",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/artifacts',
+  path: '/artifacts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsIndexRoute = PostsIndexRouteImport.update({
-	id: "/posts/",
-	path: "/posts/",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/posts/',
+  path: '/posts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsCreateRoute = PostsCreateRouteImport.update({
-	id: "/posts/create",
-	path: "/posts/create",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/posts/create',
+  path: '/posts/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsPostIdIndexRoute = PostsPostIdIndexRouteImport.update({
-	id: "/posts/$postId/",
-	path: "/posts/$postId/",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/posts/$postId/',
+  path: '/posts/$postId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsPostIdGeneratedRoute = PostsPostIdGeneratedRouteImport.update({
-	id: "/posts/$postId/generated",
-	path: "/posts/$postId/generated",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/posts/$postId/generated',
+  path: '/posts/$postId/generated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsPostIdEditRoute = PostsPostIdEditRouteImport.update({
-	id: "/posts/$postId/edit",
-	path: "/posts/$postId/edit",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/posts/$postId/edit',
+  path: '/posts/$postId/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-	"/": typeof IndexRoute;
-	"/artifacts": typeof ArtifactsRoute;
-	"/connect": typeof ConnectRoute;
-	"/crafting": typeof CraftingRoute;
-	"/editor": typeof EditorRoute;
-	"/saved": typeof SavedRoute;
-	"/sources": typeof SourcesRoute;
-	"/posts/create": typeof PostsCreateRoute;
-	"/posts/": typeof PostsIndexRoute;
-	"/posts/$postId/edit": typeof PostsPostIdEditRoute;
-	"/posts/$postId/generated": typeof PostsPostIdGeneratedRoute;
-	"/posts/$postId/": typeof PostsPostIdIndexRoute;
+  '/': typeof IndexRoute
+  '/artifacts': typeof ArtifactsRoute
+  '/connect': typeof ConnectRoute
+  '/crafting': typeof CraftingRoute
+  '/editor': typeof EditorRoute
+  '/saved': typeof SavedRoute
+  '/sources': typeof SourcesRoute
+  '/posts/create': typeof PostsCreateRoute
+  '/posts/': typeof PostsIndexRoute
+  '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/posts/$postId/generated': typeof PostsPostIdGeneratedRoute
+  '/posts/$postId/': typeof PostsPostIdIndexRoute
 }
 export interface FileRoutesByTo {
-	"/": typeof IndexRoute;
-	"/artifacts": typeof ArtifactsRoute;
-	"/connect": typeof ConnectRoute;
-	"/crafting": typeof CraftingRoute;
-	"/editor": typeof EditorRoute;
-	"/saved": typeof SavedRoute;
-	"/sources": typeof SourcesRoute;
-	"/posts/create": typeof PostsCreateRoute;
-	"/posts": typeof PostsIndexRoute;
-	"/posts/$postId/edit": typeof PostsPostIdEditRoute;
-	"/posts/$postId/generated": typeof PostsPostIdGeneratedRoute;
-	"/posts/$postId": typeof PostsPostIdIndexRoute;
+  '/': typeof IndexRoute
+  '/artifacts': typeof ArtifactsRoute
+  '/connect': typeof ConnectRoute
+  '/crafting': typeof CraftingRoute
+  '/editor': typeof EditorRoute
+  '/saved': typeof SavedRoute
+  '/sources': typeof SourcesRoute
+  '/posts/create': typeof PostsCreateRoute
+  '/posts': typeof PostsIndexRoute
+  '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/posts/$postId/generated': typeof PostsPostIdGeneratedRoute
+  '/posts/$postId': typeof PostsPostIdIndexRoute
 }
 export interface FileRoutesById {
-	__root__: typeof rootRouteImport;
-	"/": typeof IndexRoute;
-	"/artifacts": typeof ArtifactsRoute;
-	"/connect": typeof ConnectRoute;
-	"/crafting": typeof CraftingRoute;
-	"/editor": typeof EditorRoute;
-	"/saved": typeof SavedRoute;
-	"/sources": typeof SourcesRoute;
-	"/posts/create": typeof PostsCreateRoute;
-	"/posts/": typeof PostsIndexRoute;
-	"/posts/$postId/edit": typeof PostsPostIdEditRoute;
-	"/posts/$postId/generated": typeof PostsPostIdGeneratedRoute;
-	"/posts/$postId/": typeof PostsPostIdIndexRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/artifacts': typeof ArtifactsRoute
+  '/connect': typeof ConnectRoute
+  '/crafting': typeof CraftingRoute
+  '/editor': typeof EditorRoute
+  '/saved': typeof SavedRoute
+  '/sources': typeof SourcesRoute
+  '/posts/create': typeof PostsCreateRoute
+  '/posts/': typeof PostsIndexRoute
+  '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/posts/$postId/generated': typeof PostsPostIdGeneratedRoute
+  '/posts/$postId/': typeof PostsPostIdIndexRoute
 }
 export interface FileRouteTypes {
-	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths:
-		| "/"
-		| "/artifacts"
-		| "/connect"
-		| "/crafting"
-		| "/editor"
-		| "/saved"
-		| "/sources"
-		| "/posts/create"
-		| "/posts/"
-		| "/posts/$postId/edit"
-		| "/posts/$postId/generated"
-		| "/posts/$postId/";
-	fileRoutesByTo: FileRoutesByTo;
-	to:
-		| "/"
-		| "/artifacts"
-		| "/connect"
-		| "/crafting"
-		| "/editor"
-		| "/saved"
-		| "/sources"
-		| "/posts/create"
-		| "/posts"
-		| "/posts/$postId/edit"
-		| "/posts/$postId/generated"
-		| "/posts/$postId";
-	id:
-		| "__root__"
-		| "/"
-		| "/artifacts"
-		| "/connect"
-		| "/crafting"
-		| "/editor"
-		| "/saved"
-		| "/sources"
-		| "/posts/create"
-		| "/posts/"
-		| "/posts/$postId/edit"
-		| "/posts/$postId/generated"
-		| "/posts/$postId/";
-	fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/artifacts'
+    | '/connect'
+    | '/crafting'
+    | '/editor'
+    | '/saved'
+    | '/sources'
+    | '/posts/create'
+    | '/posts/'
+    | '/posts/$postId/edit'
+    | '/posts/$postId/generated'
+    | '/posts/$postId/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/artifacts'
+    | '/connect'
+    | '/crafting'
+    | '/editor'
+    | '/saved'
+    | '/sources'
+    | '/posts/create'
+    | '/posts'
+    | '/posts/$postId/edit'
+    | '/posts/$postId/generated'
+    | '/posts/$postId'
+  id:
+    | '__root__'
+    | '/'
+    | '/artifacts'
+    | '/connect'
+    | '/crafting'
+    | '/editor'
+    | '/saved'
+    | '/sources'
+    | '/posts/create'
+    | '/posts/'
+    | '/posts/$postId/edit'
+    | '/posts/$postId/generated'
+    | '/posts/$postId/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-	IndexRoute: typeof IndexRoute;
-	ArtifactsRoute: typeof ArtifactsRoute;
-	ConnectRoute: typeof ConnectRoute;
-	CraftingRoute: typeof CraftingRoute;
-	EditorRoute: typeof EditorRoute;
-	SavedRoute: typeof SavedRoute;
-	SourcesRoute: typeof SourcesRoute;
-	PostsCreateRoute: typeof PostsCreateRoute;
-	PostsIndexRoute: typeof PostsIndexRoute;
-	PostsPostIdEditRoute: typeof PostsPostIdEditRoute;
-	PostsPostIdGeneratedRoute: typeof PostsPostIdGeneratedRoute;
-	PostsPostIdIndexRoute: typeof PostsPostIdIndexRoute;
+  IndexRoute: typeof IndexRoute
+  ArtifactsRoute: typeof ArtifactsRoute
+  ConnectRoute: typeof ConnectRoute
+  CraftingRoute: typeof CraftingRoute
+  EditorRoute: typeof EditorRoute
+  SavedRoute: typeof SavedRoute
+  SourcesRoute: typeof SourcesRoute
+  PostsCreateRoute: typeof PostsCreateRoute
+  PostsIndexRoute: typeof PostsIndexRoute
+  PostsPostIdEditRoute: typeof PostsPostIdEditRoute
+  PostsPostIdGeneratedRoute: typeof PostsPostIdGeneratedRoute
+  PostsPostIdIndexRoute: typeof PostsPostIdIndexRoute
 }
 
-declare module "@tanstack/react-router" {
-	interface FileRoutesByPath {
-		"/sources": {
-			id: "/sources";
-			path: "/sources";
-			fullPath: "/sources";
-			preLoaderRoute: typeof SourcesRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/saved": {
-			id: "/saved";
-			path: "/saved";
-			fullPath: "/saved";
-			preLoaderRoute: typeof SavedRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/editor": {
-			id: "/editor";
-			path: "/editor";
-			fullPath: "/editor";
-			preLoaderRoute: typeof EditorRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/crafting": {
-			id: "/crafting";
-			path: "/crafting";
-			fullPath: "/crafting";
-			preLoaderRoute: typeof CraftingRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/connect": {
-			id: "/connect";
-			path: "/connect";
-			fullPath: "/connect";
-			preLoaderRoute: typeof ConnectRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/artifacts": {
-			id: "/artifacts";
-			path: "/artifacts";
-			fullPath: "/artifacts";
-			preLoaderRoute: typeof ArtifactsRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/": {
-			id: "/";
-			path: "/";
-			fullPath: "/";
-			preLoaderRoute: typeof IndexRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/posts/": {
-			id: "/posts/";
-			path: "/posts";
-			fullPath: "/posts/";
-			preLoaderRoute: typeof PostsIndexRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/posts/create": {
-			id: "/posts/create";
-			path: "/posts/create";
-			fullPath: "/posts/create";
-			preLoaderRoute: typeof PostsCreateRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/posts/$postId/": {
-			id: "/posts/$postId/";
-			path: "/posts/$postId";
-			fullPath: "/posts/$postId/";
-			preLoaderRoute: typeof PostsPostIdIndexRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/posts/$postId/generated": {
-			id: "/posts/$postId/generated";
-			path: "/posts/$postId/generated";
-			fullPath: "/posts/$postId/generated";
-			preLoaderRoute: typeof PostsPostIdGeneratedRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/posts/$postId/edit": {
-			id: "/posts/$postId/edit";
-			path: "/posts/$postId/edit";
-			fullPath: "/posts/$postId/edit";
-			preLoaderRoute: typeof PostsPostIdEditRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-	}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/sources': {
+      id: '/sources'
+      path: '/sources'
+      fullPath: '/sources'
+      preLoaderRoute: typeof SourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editor': {
+      id: '/editor'
+      path: '/editor'
+      fullPath: '/editor'
+      preLoaderRoute: typeof EditorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crafting': {
+      id: '/crafting'
+      path: '/crafting'
+      fullPath: '/crafting'
+      preLoaderRoute: typeof CraftingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/connect': {
+      id: '/connect'
+      path: '/connect'
+      fullPath: '/connect'
+      preLoaderRoute: typeof ConnectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/artifacts': {
+      id: '/artifacts'
+      path: '/artifacts'
+      fullPath: '/artifacts'
+      preLoaderRoute: typeof ArtifactsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/': {
+      id: '/posts/'
+      path: '/posts'
+      fullPath: '/posts/'
+      preLoaderRoute: typeof PostsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/create': {
+      id: '/posts/create'
+      path: '/posts/create'
+      fullPath: '/posts/create'
+      preLoaderRoute: typeof PostsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/$postId/': {
+      id: '/posts/$postId/'
+      path: '/posts/$postId'
+      fullPath: '/posts/$postId/'
+      preLoaderRoute: typeof PostsPostIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/$postId/generated': {
+      id: '/posts/$postId/generated'
+      path: '/posts/$postId/generated'
+      fullPath: '/posts/$postId/generated'
+      preLoaderRoute: typeof PostsPostIdGeneratedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/$postId/edit': {
+      id: '/posts/$postId/edit'
+      path: '/posts/$postId/edit'
+      fullPath: '/posts/$postId/edit'
+      preLoaderRoute: typeof PostsPostIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-	IndexRoute: IndexRoute,
-	ArtifactsRoute: ArtifactsRoute,
-	ConnectRoute: ConnectRoute,
-	CraftingRoute: CraftingRoute,
-	EditorRoute: EditorRoute,
-	SavedRoute: SavedRoute,
-	SourcesRoute: SourcesRoute,
-	PostsCreateRoute: PostsCreateRoute,
-	PostsIndexRoute: PostsIndexRoute,
-	PostsPostIdEditRoute: PostsPostIdEditRoute,
-	PostsPostIdGeneratedRoute: PostsPostIdGeneratedRoute,
-	PostsPostIdIndexRoute: PostsPostIdIndexRoute,
-};
+  IndexRoute: IndexRoute,
+  ArtifactsRoute: ArtifactsRoute,
+  ConnectRoute: ConnectRoute,
+  CraftingRoute: CraftingRoute,
+  EditorRoute: EditorRoute,
+  SavedRoute: SavedRoute,
+  SourcesRoute: SourcesRoute,
+  PostsCreateRoute: PostsCreateRoute,
+  PostsIndexRoute: PostsIndexRoute,
+  PostsPostIdEditRoute: PostsPostIdEditRoute,
+  PostsPostIdGeneratedRoute: PostsPostIdGeneratedRoute,
+  PostsPostIdIndexRoute: PostsPostIdIndexRoute,
+}
 export const routeTree = rootRouteImport
-	._addFileChildren(rootRouteChildren)
-	._addFileTypes<FileRouteTypes>();
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
-import type { createStart } from "@tanstack/react-start";
-import type { getRouter } from "./router.tsx";
-
-declare module "@tanstack/react-start" {
-	interface Register {
-		ssr: true;
-		router: Awaited<ReturnType<typeof getRouter>>;
-	}
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
 }

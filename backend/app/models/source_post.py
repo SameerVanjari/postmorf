@@ -23,6 +23,7 @@ class SourcePostBase(SQLModel):
 
 
 class SourcePost(SourcePostBase, table=True):
+    __tablename__ = "source_posts"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     social_account_id: uuid.UUID = Field(foreign_key="social_accounts.id", ondelete="CASCADE")
     created_at: datetime = Field(default_factory=datetime.utcnow)

@@ -1,10 +1,11 @@
 from fastapi import APIRouter
 
-from app.api.routes import posts, users
+from app.api.routes import auth, posts, users
 from app.api.routes import social_accounts, source_posts, generated_posts, post_artifacts
 
 api_router = APIRouter()
 
+api_router.include_router(auth.router)
 api_router.include_router(posts.router)
 api_router.include_router(users.router)
 api_router.include_router(social_accounts.router)

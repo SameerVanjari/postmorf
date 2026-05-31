@@ -15,6 +15,7 @@ class SourcePostChunkBase(SQLModel):
 
 
 class SourcePostChunk(SourcePostChunkBase, table=True):
+    __tablename__ = "source_post_chunks"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     source_post_id: uuid.UUID = Field(foreign_key="source_posts.id", ondelete="CASCADE")
     created_at: datetime = Field(default_factory=datetime.utcnow)

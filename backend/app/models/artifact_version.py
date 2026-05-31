@@ -14,6 +14,7 @@ class ArtifactVersionBase(SQLModel):
 
 
 class ArtifactVersion(ArtifactVersionBase, table=True):
+    __tablename__ = "artifact_versions"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     artifact_id: uuid.UUID = Field(foreign_key="post_artifacts.id", ondelete="CASCADE")
     created_at: datetime = Field(default_factory=datetime.utcnow)

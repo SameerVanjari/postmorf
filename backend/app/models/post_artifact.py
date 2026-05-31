@@ -18,6 +18,7 @@ class PostArtifactBase(SQLModel):
 
 
 class PostArtifact(PostArtifactBase, table=True):
+    __tablename__ = "post_artifacts"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     user_id: uuid.UUID = Field(foreign_key="users.id", ondelete="CASCADE")
     generated_post_id: Optional[uuid.UUID] = Field(

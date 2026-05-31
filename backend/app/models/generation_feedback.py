@@ -14,6 +14,7 @@ class GenerationFeedbackBase(SQLModel):
 
 
 class GenerationFeedback(GenerationFeedbackBase, table=True):
+    __tablename__ = "generation_feedback"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     generated_post_id: uuid.UUID = Field(foreign_key="generated_posts.id", ondelete="CASCADE")
     created_at: datetime = Field(default_factory=datetime.utcnow)

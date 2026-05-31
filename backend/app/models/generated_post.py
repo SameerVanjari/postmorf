@@ -21,6 +21,7 @@ class GeneratedPostBase(SQLModel):
 
 
 class GeneratedPost(GeneratedPostBase, table=True):
+    __tablename__ = "generated_posts"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     source_post_id: uuid.UUID = Field(foreign_key="source_posts.id", ondelete="CASCADE")
     created_at: datetime = Field(default_factory=datetime.utcnow)

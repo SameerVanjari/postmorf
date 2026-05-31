@@ -10,6 +10,9 @@ from app.models import (
     GeneratedPostCreate,
     GeneratedPostPublic,
     GeneratedPostUpdate,
+    GenerationFeedback,
+    GenerationFeedbackCreate,
+    GenerationFeedbackPublic,
     SourcePost,
 )
 
@@ -68,3 +71,33 @@ def delete_generated_post(gen_id: uuid.UUID, session: Session = Depends(get_sess
     session.delete(gen)
     session.commit()
     return {"detail": "Generated post deleted"}
+
+
+@router.post("/{gen_id}/feedback", response_model=GenerationFeedbackPublic)
+def create_feedback(
+    gen_id: uuid.UUID,
+    feedback: GenerationFeedbackCreate,
+    session: Session = Depends(get_session),
+):
+    gen = session.get(GeneratedPost, gen_id)
+    if not gen:
+        raise HTTPException(status_code=404, detail="Generated post not found")
+    db_feedback = GenerationFeedback(
+        **feedback.model_dump(), generated_post_id=gen_id
+    )
+    session.add(db_feedback)
+    session.commit()
+    session.refresh(db_feedback)
+    return db_feedback
+
+
+@router.get("/{gen_id}/feedback", response_model=List[GenerationFeedbackPublic])
+def read_feedback(gen_id: uuid.UUID, session: Session = Depends(get_session)):
+    gen = session.get(GeneratedPost, gen_id)
+    if not gen:
+        raise HTTPException(status_code=404, detail="Generated post not found")
+    return session.exec(
+        select(GenerationFeedback).where(
+            GenerationFeedback.generated_post_id == gen_id
+        )
+    ).all()

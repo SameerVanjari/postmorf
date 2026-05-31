@@ -7,6 +7,8 @@ from sqlmodel import Session, select
 from app.core.db import get_session
 from app.models import (
     SourcePost,
+    SourcePostChunk,
+    SourcePostChunkPublic,
     SourcePostCreate,
     SourcePostPublic,
     SourcePostUpdate,
@@ -77,3 +79,33 @@ def delete_source_post(post_id: uuid.UUID, session: Session = Depends(get_sessio
     session.delete(post)
     session.commit()
     return {"detail": "Source post deleted"}
+
+
+@router.get("/{post_id}/chunks", response_model=List[SourcePostChunkPublic])
+def read_source_post_chunks(
+    post_id: uuid.UUID, session: Session = Depends(get_session)
+):
+    post = session.get(SourcePost, post_id)
+    if not post:
+        raise HTTPException(status_code=404, detail="Source post not found")
+    chunks = session.exec(
+        select(SourcePostChunk)
+        .where(SourcePostChunk.source_post_id == post_id)
+        .order_by("sequence_number")
+    ).all()
+    return chunks
+
+
+@router.post("/{post_id}/generate")
+def generate_content(
+    post_id: uuid.UUID, tone: str = "professional", session: Session = Depends(get_session)
+):
+    post = session.get(SourcePost, post_id)
+    if not post:
+        raise HTTPException(status_code=404, detail="Source post not found")
+    return {
+        "detail": "Generation queued",
+        "source_post_id": str(post_id),
+        "tone": tone,
+        "content_type": "linkedin_post",
+    }

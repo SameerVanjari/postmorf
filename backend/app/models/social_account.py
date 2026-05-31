@@ -21,6 +21,7 @@ class SocialAccountBase(SQLModel):
 
 
 class SocialAccount(SocialAccountBase, table=True):
+    __tablename__ = "social_accounts"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     user_id: uuid.UUID = Field(foreign_key="users.id", ondelete="CASCADE")
     created_at: datetime = Field(default_factory=datetime.utcnow)

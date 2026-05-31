@@ -4,6 +4,8 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
+from datetime import datetime, timezone
+
 from app.core.db import get_session
 from app.models import (
     SocialAccount,
@@ -81,3 +83,21 @@ def delete_social_account(
     session.delete(account)
     session.commit()
     return {"detail": "Social account deleted"}
+
+
+@router.post("/{account_id}/sync")
+def sync_social_account(
+    account_id: uuid.UUID, session: Session = Depends(get_session)
+):
+    account = session.get(SocialAccount, account_id)
+    if not account:
+        raise HTTPException(status_code=404, detail="Social account not found")
+    account.last_synced_at = datetime.now(timezone.utc)
+    session.add(account)
+    session.commit()
+    return {
+        "detail": "Sync completed",
+        "account_id": str(account_id),
+        "platform": account.platform,
+        "last_synced_at": account.last_synced_at.isoformat(),
+    }

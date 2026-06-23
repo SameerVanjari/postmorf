@@ -1,14 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  accounts as mockAccounts,
-  posts as mockPosts,
-  sourcePosts as mockSourcePosts,
-} from "@/data/mockData";
-import type { DashboardStats, Post } from "@/lib/types";
-
-async function delay<T>(data: T, ms = 200): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(data), ms));
-}
+import { artifactsService, sourcePostsService, socialAccountsService } from "@/api";
+import type { Post } from "@/lib/types";
 
 export const queryKeys = {
   posts: ["posts"] as const,
@@ -22,7 +14,7 @@ export function usePosts(search?: string) {
   return useQuery({
     queryKey: [...queryKeys.posts, search],
     queryFn: async () => {
-      const all = await delay([...mockPosts]);
+      const all = await artifactsService.list();
       if (!search?.trim()) return all;
       const q = search.toLowerCase();
       return all.filter(
@@ -39,11 +31,7 @@ export function usePosts(search?: string) {
 export function usePost(id: string) {
   return useQuery({
     queryKey: queryKeys.post(id),
-    queryFn: async () => {
-      const post = await delay(mockPosts.find((p) => p.id === id) ?? null);
-      if (!post) throw new Error("Post not found");
-      return post;
-    },
+    queryFn: () => artifactsService.getById(id),
     enabled: !!id,
   });
 }
@@ -51,7 +39,7 @@ export function usePost(id: string) {
 export function useSourcePosts() {
   return useQuery({
     queryKey: queryKeys.sourcePosts,
-    queryFn: () => delay([...mockSourcePosts]),
+    queryFn: () => sourcePostsService.list(),
     staleTime: 60_000,
   });
 }
@@ -59,7 +47,7 @@ export function useSourcePosts() {
 export function useAccounts() {
   return useQuery({
     queryKey: queryKeys.accounts,
-    queryFn: () => delay([...mockAccounts]),
+    queryFn: () => socialAccountsService.list(),
     staleTime: 120_000,
   });
 }
@@ -67,15 +55,7 @@ export function useAccounts() {
 export function useDashboardStats() {
   return useQuery({
     queryKey: queryKeys.stats,
-    queryFn: async () => {
-      const all = await delay([...mockPosts]);
-      return {
-        totalPosts: all.length,
-        draftPosts: all.filter((p) => p.status === "draft").length,
-        publishedPosts: all.filter((p) => p.status === "published").length,
-        scheduledPosts: all.filter((p) => p.status === "scheduled").length,
-      } satisfies DashboardStats;
-    },
+    queryFn: () => artifactsService.stats(),
     staleTime: 15_000,
   });
 }
@@ -84,20 +64,8 @@ export function useCreatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: Omit<Post, "id" | "createdAt" | "updatedAt">) => {
-      await delay(null, 300);
-      const now = new Date().toISOString();
-      const newPost: Post = {
-        ...data,
-        id: `post-${Date.now()}`,
-        createdAt: now,
-        updatedAt: now,
-        scheduledAt: data.scheduledAt ?? null,
-        sourcePostId: data.sourcePostId ?? null,
-      };
-      mockPosts.unshift(newPost);
-      return newPost;
-    },
+    mutationFn: (data: Omit<Post, "id" | "createdAt" | "updatedAt">) =>
+      artifactsService.create(data),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.posts });
       void queryClient.invalidateQueries({ queryKey: queryKeys.stats });
@@ -109,13 +77,8 @@ export function useUpdatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: { id: string } & Partial<Post>) => {
-      await delay(null, 200);
-      const post = mockPosts.find((p) => p.id === data.id);
-      if (!post) throw new Error("Post not found");
-      Object.assign(post, data, { updatedAt: new Date().toISOString() });
-      return post;
-    },
+    mutationFn: ({ id, ...data }: { id: string } & Partial<Post>) =>
+      artifactsService.update(id, data),
     onSuccess: (_, variables) => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.posts });
       void queryClient.invalidateQueries({
@@ -130,12 +93,7 @@ export function useDeletePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (id: string) => {
-      await delay(null, 150);
-      const index = mockPosts.findIndex((p) => p.id === id);
-      if (index === -1) throw new Error("Post not found");
-      mockPosts.splice(index, 1);
-    },
+    mutationFn: (id: string) => artifactsService.delete(id),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.posts });
       void queryClient.invalidateQueries({ queryKey: queryKeys.stats });

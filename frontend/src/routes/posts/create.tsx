@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useCreatePost } from "@/hooks/use-posts";
+import { useCreatePost, useAccounts } from "@/hooks/use-posts";
 
 export const Route = createFileRoute("/posts/create")({
   component: CreatePostPage,
@@ -17,6 +17,7 @@ export const Route = createFileRoute("/posts/create")({
 function CreatePostPage() {
   const navigate = useNavigate();
   const createPost = useCreatePost();
+  const { data: accounts = [] } = useAccounts();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
@@ -108,6 +109,7 @@ function CreatePostPage() {
           <PlatformAccountSelector
             selected={selectedPlatforms}
             onChange={setSelectedPlatforms}
+            accounts={accounts}
           />
         </div>
 

@@ -1,4 +1,4 @@
-import { accounts, platforms } from "@/data/mockData";
+import { platforms } from "@/data/mockData";
 import type { Account } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,15 +6,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 interface PlatformAccountSelectorProps {
   readonly selected: string[];
   readonly onChange: (selected: string[]) => void;
+  readonly accounts?: Account[];
 }
 
-function getPlatformAccounts(platformId: string): Account[] {
+function getPlatformAccounts(accounts: Account[], platformId: string): Account[] {
   return accounts.filter((a) => a.platformId === platformId);
 }
 
 export function PlatformAccountSelector({
   selected,
   onChange,
+  accounts = [],
 }: PlatformAccountSelectorProps) {
   const togglePlatform = (platformId: string) => {
     if (selected.includes(platformId)) {
@@ -27,7 +29,7 @@ export function PlatformAccountSelector({
   return (
     <div className="flex flex-col gap-3">
       {platforms.map((platform) => {
-        const platformAccounts = getPlatformAccounts(platform.id);
+        const platformAccounts = getPlatformAccounts(accounts, platform.id);
         const isSelected = selected.includes(platform.id);
 
         return (

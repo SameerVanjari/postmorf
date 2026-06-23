@@ -14,9 +14,11 @@ if TYPE_CHECKING:
 class SourcePostBase(SQLModel):
     platform_post_id: str = Field(index=True)
     post_type: str = Field(index=True)
+    title: Optional[str] = None
     content: str
     author_username: Optional[str] = None
     source_url: Optional[str] = None
+    source_platform: Optional[str] = None
     posted_at: Optional[datetime] = None
     post_metadata: Optional[dict] = Field(default=None, sa_column=Column("metadata", JSON))
     raw_payload: Optional[dict] = Field(default=None, sa_column=Column(JSON))
@@ -47,9 +49,11 @@ class SourcePostPublic(SourcePostBase):
 
 class SourcePostUpdate(SQLModel):
     post_type: Optional[str] = None
+    title: Optional[str] = None
     content: Optional[str] = None
     author_username: Optional[str] = None
     source_url: Optional[str] = None
+    source_platform: Optional[str] = None
     posted_at: Optional[datetime] = None
     post_metadata: Optional[dict] = None
     raw_payload: Optional[dict] = None

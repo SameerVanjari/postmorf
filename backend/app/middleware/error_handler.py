@@ -3,6 +3,8 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from sqlalchemy.exc import SQLAlchemyError
+import traceback
+import sys
 
 
 def register_exception_handlers(app: FastAPI) -> None:
@@ -43,6 +45,7 @@ def register_exception_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(SQLAlchemyError)
     async def db_exception_handler(request: Request, exc: SQLAlchemyError):
+        traceback.print_exception(type(exc), exc, exc.__traceback__, file=sys.stderr)
         return JSONResponse(
             status_code=500,
             content={
@@ -56,6 +59,7 @@ def register_exception_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(Exception)
     async def general_exception_handler(request: Request, exc: Exception):
+        traceback.print_exception(type(exc), exc, exc.__traceback__, file=sys.stderr)
         return JSONResponse(
             status_code=500,
             content={

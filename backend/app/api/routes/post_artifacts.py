@@ -2,7 +2,7 @@ import uuid
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlmodel import Session, select
+from sqlmodel import Session, select, func
 
 from app.core.db import get_session
 from app.models import (
@@ -45,6 +45,21 @@ def read_artifacts(
     if status:
         query = query.where(PostArtifact.status == status)
     return session.exec(query).all()
+
+
+@router.get("/stats")
+def get_artifact_stats(session: Session = Depends(get_session)):
+    result = session.exec(
+        select(PostArtifact.status, func.count(PostArtifact.id)).group_by(PostArtifact.status)
+    ).all()
+    counts = {status: count for status, count in result}
+    return {
+        "total_posts": sum(counts.values()),
+        "draft_posts": counts.get("draft", 0),
+        "published_posts": counts.get("published", 0),
+        "scheduled_posts": counts.get("scheduled", 0),
+        "crafting_posts": counts.get("crafting", 0),
+    }
 
 
 @router.get("/{artifact_id}", response_model=PostArtifactPublic)
